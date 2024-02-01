@@ -98,3 +98,18 @@ def add_data_from_csv():
                           highlights=row[15])
                 db.session.add(e)
             db.session.commit()
+
+### Week 3 activity
+from flask_marshmallow import Marshmallow
+
+# Create a global SQLAlchemy object
+db = SQLAlchemy()
+# Create a global Flask-Marshmallow object
+ma = Marshmallow()
+
+
+def create_app():
+    # Initialise Flask-SQLAlchemy
+    db.init_app(app)
+    # Initialise Flask-Marshmallow
+    ma.init_app(app)
