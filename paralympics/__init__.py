@@ -3,13 +3,15 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
+from flask_marshmallow import Marshmallow
 
 class Base(DeclarativeBase):
     pass
 
 
 db = SQLAlchemy(model_class=Base)
-
+# Create a global Flask-Marshmallow object
+ma = Marshmallow()
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -30,6 +32,8 @@ def create_app(test_config=None):
 
     # Initialise Flask with the SQLAlchemy database extension
     db.init_app(app)
+    # Initialise Flask-Marshmallow
+    ma.init_app(app)
 
     # Models are defined in the models module, so you must import them before calling create_all, otherwise SQLAlchemy
     # will not know about them.
@@ -98,18 +102,3 @@ def add_data_from_csv():
                           highlights=row[15])
                 db.session.add(e)
             db.session.commit()
-
-### Week 3 activity
-from flask_marshmallow import Marshmallow
-
-# Create a global SQLAlchemy object
-db = SQLAlchemy()
-# Create a global Flask-Marshmallow object
-ma = Marshmallow()
-
-
-def create_app():
-    # Initialise Flask-SQLAlchemy
-    db.init_app(app)
-    # Initialise Flask-Marshmallow
-    ma.init_app(app)
